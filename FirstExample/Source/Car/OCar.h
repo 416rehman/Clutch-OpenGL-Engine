@@ -6,7 +6,7 @@
 #include "../../Engine/Types.h"
 
 class OCar : public Object {
-    float maxSpeed = 0.001f;
+    float maxSpeed = 0.02f;
 public:
     TextureResource* bodyTexture = new TextureResource();
     TextureResource* wheelTexture = new TextureResource();

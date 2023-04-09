@@ -24,11 +24,14 @@ void Object::removeComponent(SceneComponent* component) {
 
 // starting from root component, recursively draw all children
 void Object::draw(glm::mat4 &modelMatrix, GLint &modelMatrixUniformLocation) {
-    modelMatrix = glm::translate(modelMatrix, transform.getPosition());
-    modelMatrix = glm::scale(modelMatrix, transform.getScale());
-    modelMatrix = glm::rotate(modelMatrix, transform.getRotation().x, glm::vec3(1, 0, 0));
-    modelMatrix = glm::rotate(modelMatrix, transform.getRotation().y, glm::vec3(0, 1, 0));
-    modelMatrix = glm::rotate(modelMatrix, transform.getRotation().z, glm::vec3(0, 0, 1));
+    auto objectModelMatrix = glm::mat4(1.0f);
+    objectModelMatrix = glm::translate(objectModelMatrix, transform.getPosition());
+    objectModelMatrix = glm::scale(objectModelMatrix, transform.getScale());
+    objectModelMatrix = glm::rotate(objectModelMatrix, transform.getRotation().x, glm::vec3(1, 0, 0));
+    objectModelMatrix = glm::rotate(objectModelMatrix, transform.getRotation().y, glm::vec3(0, 1, 0));
+    objectModelMatrix = glm::rotate(objectModelMatrix, transform.getRotation().z, glm::vec3(0, 0, 1));
+
+    modelMatrix = modelMatrix * objectModelMatrix;
 
     if (rootComponent != nullptr) {
         rootComponent->drawAll(modelMatrix, modelMatrixUniformLocation);

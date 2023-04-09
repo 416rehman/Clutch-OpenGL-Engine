@@ -29,8 +29,6 @@ public:
     glm::vec3 getRotation();
     void setRotation(glm::vec3 inRotation);
 
-    glm::vec3 getUnitVector(Axis axis);
-
     glm::vec3 getForwardVector();
     glm::vec3 getUpVector();
     glm::vec3 getRightVector();

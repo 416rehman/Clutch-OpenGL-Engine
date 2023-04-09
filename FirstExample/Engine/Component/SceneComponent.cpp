@@ -48,12 +48,21 @@ void SceneComponent::drawAll(glm::mat4& parentModelMatrix, GLint &modelMatrixUni
     auto modelMatrix = glm::mat4(1.0f);
 
     modelMatrix = glm::translate(modelMatrix, transform.getPosition());
-    modelMatrix = glm::scale(modelMatrix, transform.getScale());
+    if (attachParent == nullptr) {  // only scale the root component. This scale is multiplied by the parent's scale.
+        if (getOwner()) {
+            modelMatrix = glm::scale(modelMatrix, transform.getScale());
+        }
+    }
+    else {
+        // do not scale other components by their parent's scale. We divide this scale by the parent's scale so when we multiply the parent's scale, it will cancel out.
+        modelMatrix = glm::scale(modelMatrix, transform.getScale() / attachParent->transform.getScale());
+    }
+
     modelMatrix = glm::rotate(modelMatrix, transform.getRotation().x, glm::vec3(1, 0, 0));
     modelMatrix = glm::rotate(modelMatrix, transform.getRotation().y, glm::vec3(0, 1, 0));
     modelMatrix = glm::rotate(modelMatrix, transform.getRotation().z, glm::vec3(0, 0, 1));
 
-    modelMatrix = parentModelMatrix * modelMatrix;
+    modelMatrix = parentModelMatrix * modelMatrix;  // apply parent model matrix to this component
 
     // draw this component
     this->draw(modelMatrix, modelMatrixUniformLocation);

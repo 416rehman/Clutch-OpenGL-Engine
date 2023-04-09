@@ -95,10 +95,6 @@ void createWindow(int &argc, char **argv, int width, int height, const char *tit
 }
 
 void Display() {
-    for (auto i : Globals::SceneGraph) {
-        i->onTick(float(Globals::Time::DeltaTime));
-    }
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Globals::Matrix::Model = glm::mat4(1.0f);   // Reset the model matrix on every frame
     glUniformMatrix4fv(Globals::Matrix::UniformLocation::Model, 1, GL_FALSE, &Globals::Matrix::Model[0][0]); // Send the model matrix to the shader
@@ -252,8 +248,8 @@ int main(int argc, char** argv) {
     ground->GroundTexture->textureData = &Globals::Textures[0];
     Globals::SceneGraph.push_back(ground);
 
-//    // Car GameObject
-    auto car = new OCar(Transform(glm::vec3(0.0f, 0.0f, 10.0f)));
+    // Car GameObject
+    auto car = new OCar(Transform(glm::vec3(0.0f, 0.0f, 0.0f)));
     car->bodyTexture->textureData = &Globals::Textures[0];
     car->wheelTexture->textureData = &Globals::Textures[1];
     Globals::SceneGraph.push_back(car);
